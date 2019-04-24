@@ -1,7 +1,9 @@
 import { solidElement } from './elements';
 
 // ------
-export const level = `
+
+// Static level string for testing.
+const level = `
 ......................
 ..#................#..
 ..#................#..
@@ -12,6 +14,7 @@ export const level = `
 ......##############..
 ......................`;
 
+// This function takes in the level string, and determines what needs to be built on the map at what size.
 export const buildLevel = (levelData, canvas, grid) => {
 	// Array that stores all element objects based on respective class constructors
 	let finalLevelData = [];
@@ -27,11 +30,11 @@ export const buildLevel = (levelData, canvas, grid) => {
 				y: canvas.height / grid.height * rowIndex
 			};
 			switch (element) {
-				case '#':
+				case '#': // Solid blocks
 					finalLevelData.push(
 						new solidElement(
-							Math.floor(canvas.width / grid.width),
-							Math.floor(canvas.height / grid.height),
+							Math.ceil(canvas.width / grid.width),
+							Math.ceil(canvas.height / grid.height),
 							position
 						)
 					);
