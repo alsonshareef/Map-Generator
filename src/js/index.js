@@ -1,6 +1,5 @@
 import { resizeCanvas, buildLevel } from "./levels";
 import Display from "./display";
-import * as level_data from "../js/level_data.json";
 
 // Game classes
 const display = new Display();

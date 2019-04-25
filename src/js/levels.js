@@ -2,27 +2,9 @@ import { solidElement } from "./elements";
 
 // ------
 
-// Static level string for testing.
-export const levelMap = `
-......................
-......................
-..#................#..
-..#................#..
-..#................#..
-..#........#####...#..
-..#####............#..
-......#............#..
-......##############..
-......................
-......................
-`;
-
 // 1. Translates template string to array data structure
 const levelArray = function(level) {
-	return level
-		.trim()
-		.split("\n")
-		.map(row => [...row]);
+	return level.map(row => [...row]);
 };
 
 // 2. Grid calculator - Defines grid dimensions based on level template string
