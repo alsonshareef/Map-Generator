@@ -17,40 +17,29 @@ export const level = `
 ......................
 `;
 
-// Translates template string to array data structure
+// 1. Translates template string to array data structure
 const levelArray = function(level) {
 	return level.trim().split('\n').map((row) => [ ...row ]);
 };
 
-// Grid calculator - Defines grid dimensions based on level template string
+// 2. Grid calculator - Defines grid dimensions based on level template string
 export const gridCalc = (levelData) => {
-	let grid = {},
-		rows,
-		rowLengths;
+	let grid = {};
 
-	// Calculates the amount of rows, and elements in each row
-	rows = levelArray(levelData).length;
-	rowLengths = levelArray(levelData)[0].length;
-
-	// Sets grid values based on rows and row lengths
-	grid.height = rows;
-	grid.width = rowLengths;
+	// Calculates the amount of rows and sets it to height, and calculates elements in each row, and sets it to width
+	grid.height = levelArray(levelData).length; // amount of rows
+	grid.width = levelArray(levelData)[0].length; // amount of elements per row
 
 	return grid;
 };
 
-// This will resize the canvas to have dimensions that will
-// export const resizeCanvas = (canvas, grid) => {
-// 	if (canvas.height / canvas.width > grid.height / grid.width) {
-// 		canvas.height = canvas.width * (grid.height / grid.width);
-// 		canvas.width = canvas.width;
-// 	} else {
-// 		canvas.height = canvas.height;
-// 		canvas.width = canvas.height / (grid.height / grid.width);
-// 	}
-// };
+// 3. Resize canvas dimensions to be proportionate to the grid dimensions
+export const resizeCanvas = (canvas, grid) => {
+	canvas.width = grid.width * 30;
+	canvas.height = grid.height * 30;
+};
 
-// This function takes in the level string, and determines what needs to be built on the map at what size.
+// 4. This function takes in the level string, and determines what needs to be built on the map at what size.
 export const buildLevel = (levelData, canvas, grid) => {
 	// Array that stores all element objects that are created with respective class constructors
 	let finalLevelData = [];

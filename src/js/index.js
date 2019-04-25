@@ -8,18 +8,16 @@ let canvas = document.getElementById('primary-canvas'),
 
 // DRAWING ELEMENTS
 const draw = () => {
-	// First, resize canvas based on grid aspect ratio to keep elements proportionate
-	// resizeCanvas(ctx.canvas, world_grid);
+	// 1. Resize the canvas to be proportionate to the game's grid
+	resizeCanvas(ctx.canvas, world_grid);
 
-	// Build out the level and receive an array of element objects.
+	// 2. Build out the level and receive an array of element objects.
 	let elements = buildLevel(level, canvas, world_grid);
 
-	// Draw out each element object using its properties
+	// 3. Draw out each element object using its properties
 	elements.forEach((e) => {
 		ctx.fillRect(e.position.x, e.position.y, e.width, e.height);
 	});
 };
 
 draw();
-
-// console.log(ctx.canvas.height / ctx.canvas.width);
