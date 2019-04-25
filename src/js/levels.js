@@ -1,9 +1,9 @@
-import { solidElement } from './elements';
+import { solidElement } from "./elements";
 
 // ------
 
 // Static level string for testing.
-export const level = `
+export const levelMap = `
 ......................
 ......................
 ..#................#..
@@ -19,11 +19,14 @@ export const level = `
 
 // 1. Translates template string to array data structure
 const levelArray = function(level) {
-	return level.trim().split('\n').map((row) => [ ...row ]);
+	return level
+		.trim()
+		.split("\n")
+		.map(row => [...row]);
 };
 
 // 2. Grid calculator - Defines grid dimensions based on level template string
-export const gridCalc = (levelData) => {
+export const gridCalc = levelData => {
 	let grid = {};
 
 	// Calculates the amount of rows and sets it to height, and calculates elements in each row, and sets it to width
@@ -51,11 +54,11 @@ export const buildLevel = (levelData, canvas, grid) => {
 	rows.forEach((row, rowIndex) => {
 		row.forEach((element, elementIndex) => {
 			let position = {
-				x: canvas.width / grid.width * elementIndex,
-				y: canvas.height / grid.height * rowIndex
+				x: (canvas.width / grid.width) * elementIndex,
+				y: (canvas.height / grid.height) * rowIndex
 			};
 			switch (element) {
-				case '#': // Solid blocks
+				case "#": // Solid blocks
 					finalLevelData.push(
 						new solidElement(
 							Math.ceil(canvas.width / grid.width),
