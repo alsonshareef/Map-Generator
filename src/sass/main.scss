@@ -1,17 +1,33 @@
 $primary-color: lightblue;
 
-html {
-	height: 100%;
-	width: 100%;
-	margin: 0%;
+// Elements
+* {
+	margin: 0;
+	padding: 0;
 }
 
 body {
 	text-align: center;
-	height: 100%;
-	width: 100%;
+	margin: 0;
+	display: grid;
+	justify-items: center;
 }
 
+h1 {
+	margin: 15px;
+}
+
+// Classes
+.map-form {
+	display: grid;
+}
+
+.map-selector > p {
+	margin: 10px 10px 4px 10px;
+}
+
+// ID's
 #primary-canvas {
 	border: solid black 1px;
+	margin: 20px;
 }
