@@ -1,20 +1,16 @@
-import { resizeCanvas, buildLevel } from "./levels";
-import Display from "./display";
-import Input from "./input";
+import { resizeCanvas, buildLevel } from './levels';
+import Display from './display';
+import Input from './input';
 
 // Game classes
 const display = new Display();
 const input = new Input(
-	clickCoordinates => {
+	(clickCoordinates) => {
 		console.log(clickCoordinates);
 
-		let column = Math.floor(
-			clickCoordinates.x / (display.canvas.width / display.grid.width)
-		);
+		let column = Math.floor(clickCoordinates.x / (display.canvas.width / display.grid.width));
 
-		let row = Math.floor(
-			clickCoordinates.y / (display.canvas.height / display.grid.height)
-		);
+		let row = Math.floor(clickCoordinates.y / (display.canvas.height / display.grid.height));
 
 		// console.log(column);
 		// console.log(row);
@@ -22,40 +18,35 @@ const input = new Input(
 		let cloneMap = display.map.slice();
 		for (let i = 0; i < cloneMap.length; i++) {
 			// console.log(cloneMap[i]);
-			cloneMap[i] = cloneMap[i].split("");
+			cloneMap[i] = cloneMap[i].split('');
 			// console.log(cloneMap[i]);
 		}
 
 		console.log(cloneMap);
 		console.log(cloneMap[row][column]);
 
-		if (cloneMap[row][column] === "#") {
-			cloneMap[row][column] = ".";
-		} else if (cloneMap[row][column] === ".") {
-			cloneMap[row][column] = "#";
+		if (cloneMap[row][column] === '#') {
+			cloneMap[row][column] = '.';
+		} else if (cloneMap[row][column] === '.') {
+			cloneMap[row][column] = '#';
 		}
 
 		for (let i = 0; i < cloneMap.length; i++) {
-			cloneMap[i] = cloneMap[i].join("");
+			cloneMap[i] = cloneMap[i].join('');
 		}
 
 		// console.log(cloneMap);
 		display.map = cloneMap;
 		draw();
 	},
-	keyboardPress => {
+	(keyboardPress) => {
 		if (keyboardPress.charCode === 2) {
 			// Ctrl B
-			localStorage.setItem(
-				document.getElementById("mapName").value,
-				JSON.stringify(display.map)
-			);
+			localStorage.setItem(document.getElementById('mapName').value, JSON.stringify(display.map));
 		}
 		if (keyboardPress.charCode === 17) {
 			// Ctrl Q
-			display.map = JSON.parse(
-				localStorage.getItem(document.getElementById("mapName").value)
-			);
+			display.map = JSON.parse(localStorage.getItem(document.getElementById('mapName').value));
 			console.log(display.map);
 		}
 		draw();
@@ -72,12 +63,14 @@ const draw = () => {
 	let elements = buildLevel(display.map, display.canvas, display.grid);
 
 	// 3. Draw out each element object using its properties
-	elements.forEach(e => {
+	elements.forEach((e) => {
 		display.ctx.fillRect(e.position.x, e.position.y, e.width, e.height);
 	});
 };
 
+// Displays all map titles in localStorage when game starts.
 for (let i = 1; i < localStorage.length; i++) {
 	console.log(localStorage.key(i));
 }
+
 draw();
