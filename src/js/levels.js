@@ -1,61 +1,24 @@
-import { solidElement } from "./elements";
+import * as level_data from "./level_data.json";
 
 // ------
 
-// 1. Translates template string to array data structure
-const levelArray = function(level) {
-	return level.map(row => [...row]);
-};
+export default class levelService {
+	// Default level from level data json file.
+	constructor() {
+		console.log(level_data.default.default);
+		this.default_level = level_data.default.default;
+	}
 
-// 2. Grid calculator - Defines grid dimensions based on level template string
-export const gridCalc = levelData => {
-	let grid = {};
+	// Will grab level data from either a json file or localStorage
+	loadLevelData(levelName) {
+		if (!levelName) {
+			// If no level name is passed through
+			return this.default_level;
+		} else {
+			// check if the provided level name exists and return it
+		}
+	}
 
-	// Calculates the amount of rows and sets it to height, and calculates elements in each row, and sets it to width
-	grid.height = levelArray(levelData).length; // amount of rows
-	grid.width = levelArray(levelData)[0].length; // amount of elements per row
-
-	return grid;
-};
-
-// 3. Resize canvas dimensions to be proportionate to the grid dimensions
-export const resizeCanvas = (canvas, grid) => {
-	canvas.width = grid.width * 30;
-	canvas.height = grid.height * 30;
-};
-
-// 4. This function takes in the level string, and determines what needs to be built on the map at what size.
-export const buildLevel = (levelData, canvas, grid) => {
-	// Array that stores all element objects that are created with respective class constructors
-	let finalLevelData = [];
-
-	// This will translate the 'level template string' into an array of row arrays containing elements
-	let rows = levelArray(levelData);
-
-	// This will iterate over every row array and determine what element needs to be drawn depending on each element character.
-	rows.forEach((row, rowIndex) => {
-		row.forEach((element, elementIndex) => {
-			let position = {
-				x: (canvas.width / grid.width) * elementIndex,
-				y: (canvas.height / grid.height) * rowIndex
-			};
-			switch (element) {
-				case "#": // Solid blocks
-					finalLevelData.push(
-						new solidElement(
-							Math.ceil(canvas.width / grid.width),
-							Math.ceil(canvas.height / grid.height),
-							position
-						)
-					);
-					break;
-
-				default:
-					break;
-			}
-		});
-	});
-
-	// Return array of constructed level
-	return finalLevelData;
-};
+	// Will save the level data to restful service or localStorage
+	saveLevelData(levelName, levelData) {}
+}
