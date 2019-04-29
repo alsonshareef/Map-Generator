@@ -1,3 +1,8 @@
+/**
+ * File: levels.js
+ * Description: Stores the levelService class which is responsible for receiving level data, and either distributing it or saving that data.
+ */
+
 import * as level_data from "./level_data.json";
 
 // ------
@@ -5,17 +10,23 @@ import * as level_data from "./level_data.json";
 export default class levelService {
 	// Default level from level data json file.
 	constructor() {
-		console.log(level_data.default.default);
+		// console.log(level_data);
 		this.default_level = level_data.default.default;
+		this.test_level = level_data.default.test;
 	}
 
-	// Will grab level data from either a json file or localStorage
+	// Will grab level data from either a json file or localStorage.
 	loadLevelData(levelName) {
-		if (!levelName) {
-			// If no level name is passed through
-			return this.default_level;
-		} else {
-			// check if the provided level name exists and return it
+		switch (levelName) {
+			case "default":
+				return this.default_level;
+				break;
+
+			case "test":
+				return this.test_level;
+				break;
+			default:
+				break;
 		}
 	}
 
