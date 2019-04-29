@@ -17,6 +17,7 @@ export default class Map {
 
 	// Initialization function of map generator
 	setup() {
+		document.querySelector(".map-name").innerHTML = "MAP NAME: Default";
 		this.levelData = this.levelService.loadLevelData("default");
 		this.setupInputHandlers();
 		this.display.draw(this.levelData);
@@ -25,7 +26,7 @@ export default class Map {
 	// Sets up event listeners for user input and their respective callbacks
 	setupInputHandlers() {
 		this.input.handleClick(this.handleBlocks.bind(this));
-		this.input.handleKeypress(this.handleLevelData);
+		this.input.handleKeypress(this.handleLevelData.bind(this));
 	}
 
 	// Callback for click events on canvas to manipulate the level data and redraw.
@@ -63,6 +64,36 @@ export default class Map {
 		this.display.draw(this.levelData);
 	}
 
-	// Callback for keypress events: Saves map data or retrieves map data from localStorage/API.
-	handleLevelData() {}
+	// Callback for keypress events: Saves level data or retrieves level data from localStorage/API.
+	handleLevelData(e) {
+		console.log(e);
+		// Saves level data - Alt S
+		if (e.charCode === 223) {
+			let mapName = prompt("What would you like to save this map as?");
+			if (mapName) {
+				localStorage.setItem(mapName, JSON.stringify(this.levelData));
+			}
+		}
+		// Retrieves level data - Alt G
+		if (e.charCode === 169) {
+			let mapName = prompt("Which map would you like to load?");
+			if (mapName) {
+				document.querySelector(
+					".map-name"
+				).innerHTML = `MAP NAME: ${mapName}`;
+				this.levelData = JSON.parse(localStorage.getItem(mapName));
+				this.display.draw(this.levelData);
+			}
+		}
+		// Removes level data- Alt R
+		if (e.charCode === 174) {
+			let mapName = prompt(
+				"Which map would you like to remove from storage?"
+			);
+			if (mapName) {
+				this.levelData = localStorage.removeItem(mapName);
+			}
+			alert(`${mapName} was deleted.`);
+		}
+	}
 }
