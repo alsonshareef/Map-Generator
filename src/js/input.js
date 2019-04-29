@@ -1,3 +1,8 @@
+/**
+ * File: input.js
+ * Description: Stores all the event listeners for user input, and passes in their callbacks.
+ */
+
 export default class Input {
 	constructor() {}
 
