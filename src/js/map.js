@@ -17,8 +17,7 @@ export default class Map {
 
 	// Initialization function of map generator
 	setup() {
-		document.querySelector(".map-name").innerHTML = "MAP NAME: Default";
-		this.levelData = this.levelService.loadLevelData("default");
+		this.levelData = this.levelService.loadLevelData("static", "default");
 		this.setupInputHandlers();
 		this.display.draw(this.levelData);
 	}
@@ -66,34 +65,52 @@ export default class Map {
 
 	// Callback for keypress events: Saves level data or retrieves level data from localStorage/API.
 	handleLevelData(e) {
-		console.log(e);
-		// Saves level data - Alt S
-		if (e.charCode === 223) {
-			let mapName = prompt("What would you like to save this map as?");
-			if (mapName) {
-				localStorage.setItem(mapName, JSON.stringify(this.levelData));
-			}
-		}
-		// Retrieves level data - Alt G
+		// LOAD - Alt G
 		if (e.charCode === 169) {
-			let mapName = prompt("Which map would you like to load?");
-			if (mapName) {
-				document.querySelector(
-					".map-name"
-				).innerHTML = `MAP NAME: ${mapName}`;
-				this.levelData = JSON.parse(localStorage.getItem(mapName));
+			let loadType = prompt(`You are trying to LOAD a map. Please select what type of load you would like to make:
+				- "static"
+				- "local"
+			`);
+			let levelName = prompt(
+				"What is the name of the map you are trying to load?"
+			);
+			if (loadType && levelName) {
+				this.levelData = this.levelService.loadLevelData(
+					loadType,
+					levelName
+				);
 				this.display.draw(this.levelData);
 			}
 		}
-		// Removes level data- Alt R
-		if (e.charCode === 174) {
-			let mapName = prompt(
-				"Which map would you like to remove from storage?"
+
+		// SAVE - Alt S
+		if (e.charCode === 223) {
+			let saveType = prompt(`You are trying to SAVE this map. Please select what type of save you would like to make:
+				- "local"
+			`);
+			let levelName = prompt(
+				"What name would you like to give to this map?"
 			);
-			if (mapName) {
-				this.levelData = localStorage.removeItem(mapName);
+			if (saveType && levelName) {
+				this.levelService.saveLevelData(
+					saveType,
+					levelName,
+					this.levelData
+				);
 			}
-			alert(`${mapName} was deleted.`);
+		}
+
+		// DELETE - Alt R
+		if (e.charCode === 174) {
+			let deleteType = prompt(`You are trying to DELETE a map. Please select what type of delete you would like to make:
+				- "local"
+			`);
+			let levelName = prompt(
+				"What is the name of the map you are trying to delete?"
+			);
+			if (deleteType && levelName) {
+				this.levelService.deleteLevelData(deleteType, levelName);
+			}
 		}
 	}
 }
