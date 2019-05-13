@@ -11,13 +11,13 @@ export default class Map {
 	constructor() {
 		// Stores instances of all generator components
 		this.levelService = new levelService();
+		this.levelData = this.levelService.loadLevelData("static", "default");
 		this.display = new Display();
 		this.input = new Input();
 	}
 
 	// Initialization function of map generator
 	setup() {
-		this.levelData = this.levelService.loadLevelData("static", "default");
 		this.setupInputHandlers();
 		this.display.draw(this.levelData);
 	}
